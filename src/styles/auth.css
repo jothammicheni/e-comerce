@@ -1,0 +1,35 @@
+#form{
+    width: 400px;
+    height: auto;
+    padding: 10px;
+    background: white;
+    
+
+}input{
+    width: 100%;
+    height: 50px;
+    outline: none;
+
+}label{
+    text-align: start;
+    
+}h3{
+    margin-bottom: 5%;
+} button{
+     outline: none;
+     text-decoration: none;
+     border-width: 1px;
+     border: none;
+     border-radius: 8px;
+}button:hover{
+    background:rgb(100, 100, 202);
+    box-shadow: rgb(100, 100, 202);
+}select{
+    width: 100%;
+    height: 50px;
+    outline: none;
+} textarea{
+    width: 100%;
+    height: 80px;
+    outline: none;  
+}
