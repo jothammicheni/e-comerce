@@ -12,7 +12,7 @@ const SellProducts = () => {
   const[error,setError]=useState('')
    const{sellerData}=useUser()
 
-    alert(sellerData.name)
+    //alert(sellerData.name)
     const sellProducts=(e)=>{
       e.preventDefault();
       if(!itemName.trim()|| !price.trim() || !desc.trim()|| !itemImage){
