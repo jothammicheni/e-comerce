@@ -32,7 +32,7 @@ const About = () => {
            <div className='col'>
              <Button className='bg-success'>+</Button>
              <span>{0}</span>
-             <Button>-</Button>
+             <Button  className='bg-success'>-</Button>
            </div>
          </div>
          <div className='col'>
@@ -42,7 +42,7 @@ const About = () => {
       ))}
     </div>
 
-    <Button>buy now</Button>
+    <Button className='mt-2' style={{}}>buy now</Button>
     </div> 
   )
 }
