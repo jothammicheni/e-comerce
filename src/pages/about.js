@@ -6,7 +6,7 @@ const About = () => {
   
   return (
    <div className='container'>
-   
+    
       <h3 className='mt-2'  style={{padding:'none',color:'white'}}>Total cart price :<span>sh {1000}</span></h3>
     
     <div className='container' style={{ background: 'white' }}>
@@ -41,6 +41,8 @@ const About = () => {
         </div>
       ))}
     </div>
+
+    <Button>buy now</Button>
     </div> 
   )
 }
