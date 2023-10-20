@@ -43,7 +43,7 @@ const SellerLogin = () => {
                 } else {
                     const { name, email } = data;
                     // Do something with name and email
-                    console.log(data);
+                    //console.log(data);
                     setSellerData({
                         'name':name,
                         'email':email

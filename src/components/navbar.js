@@ -7,13 +7,7 @@ import Nav  from 'react-bootstrap/Nav';
 import {useUser} from '../context/context'
 const Navbar = () => {
  const{sellerData}=useUser();
- console.log(sellerData);
-
-
-console.log(sellerData.name)
-
-let x=444;
-
+ 
   return (
     <div className='container-fluid  bg-light' style={{top:'0px', position:'sticky'}}>
          <div className='row  main-nav bg-light'>
