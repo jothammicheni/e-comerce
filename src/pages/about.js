@@ -22,7 +22,7 @@ const About = () => {
 
          />
          </div>
-         <div className='col'>
+         <div className='col' style={{maxWidth:'200px',width:'200px'}}>
            <p>{item.itemName}</p>
          </div>
          <div className='col'>
