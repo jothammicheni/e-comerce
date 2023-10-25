@@ -13,28 +13,27 @@ export const UserProvider = ({ children }) => {
     axios.get('http://localhost/online_shop_database/sell_products.php')
       .then(response => {
         setItems(response.data);
-  let isAdded=false;
-        response.data.forEach(item => {
-          if (item.itemid === product.id) {
-            console.log('Item already exists');
-            isAdded = true;
-          }
-        });
-
-        if (!isAdded) {
-          setCart( [...cart, product]);
-          console.log(cart);
-          const itemid=product.id
-          const sellerEmail=sellerData.email;
-          axios.post('http://localhost/online_shop_database/cart.php', itemid,sellerEmail)
-
-         // console.log(items);
+        const isAdded = cart.some(item => item.itemid === product.itemid);
+  
+        if (isAdded) {
+          console.log('Item already exists');
+        } else {
+          setCart([...cart, product]);
+          const itemid = product.itemid;
+          const sellerEmail = sellerData.email;
+  
+          axios.post('http://localhost/online_shop_database/cart.php', { itemid, sellerEmail })
+            .then(response => {
+              console.log(response.data);
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
         }
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
       });
   };
+  
+  
   
   // const addItemsCart = (product) => {
   //   // Assuming that the response data is an array of objects
