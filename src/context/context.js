@@ -24,6 +24,10 @@ export const UserProvider = ({ children }) => {
         if (!isAdded) {
           setCart( [...cart, product]);
           console.log(cart);
+          const itemid=product.id
+          const sellerEmail=sellerData.email;
+          axios.post('http://localhost/online_shop_database/cart.php', itemid,sellerEmail)
+
          // console.log(items);
         }
       })
