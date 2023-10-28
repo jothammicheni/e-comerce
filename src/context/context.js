@@ -27,40 +27,11 @@ export const UserProvider = ({ children }) => {
               console.log(response.data);
             })
             .catch(error => {
-              console.error('Error:', error);
+              console.error('Errorr:', error);
             });
         }
       });
   };
-  
-  
-  
-  // const addItemsCart = (product) => {
-  //   // Assuming that the response data is an array of objects
-  //   axios.get('http://localhost/online_shop_database/sell_products.php')
-  //     .then(response => {
-  //       const updatedItems = response.data;
-  
-  //       // Check if the product with the same ID is already in the cart
-  //       const isAdded = cart.some(item => item.itemId === product.id);
-  
-  //       if (!isAdded) {
-  //         // Add the entire product object to the cart
-  //         setCart(previous => [...previous, product]);
-  //         console.log(cart);
-  //       } else {
-  //         console.log('Item already exists');
-  //         console.log(cart.length);
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching data:', error);
-  //     });
-  // };
-  
-
-
-
 
   return (
     <UserContext.Provider value={{ sellerData, setSellerData,addItemsCart , cart}}>
