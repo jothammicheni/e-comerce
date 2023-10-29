@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
         const isAdded = cart.some(item => item.itemid === product.itemid);
   
         if (isAdded) {
-          console.log('Item already exists');
+          console.log('item already exists');
         } else {
           setCart([...cart, product]);
           const itemid = product.itemid;
