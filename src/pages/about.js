@@ -16,7 +16,7 @@ const About = () => {
          style={{maxWidth:'200px', width:'200px',maxHeight:'200px',height:'200px'}}
          >
          <img 
-         src={`data:image/png;base64,${item.item}`}
+         src={`data:image/png;base64,${item.item}` }
           alt={item.itemName} 
          style={{height:'100px',width:'100px'}} 
 
