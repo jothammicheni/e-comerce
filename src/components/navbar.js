@@ -2,7 +2,7 @@ import React from 'react'
 import Logo from '../assets/logo.png'
 import '../styles/nav.css'
 import { Link } from 'react-router-dom';
-//import Nav from 'react-bootstrap/Nav';
+//import Nav from 'react-bootstrap/Nav';mm
 import Nav  from 'react-bootstrap/Nav';
 import {useUser} from '../context/context'
 const Navbar = () => {
@@ -30,7 +30,7 @@ const Navbar = () => {
                </li>
                <li className='nav-item'>
                  <Nav.Link as={Link} className='nav-link active'  to='/' style={{color: 'black'}}>logout</Nav.Link>
-               </li>
+                </li>
 
             </ul>
             </div>
