@@ -1,13 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUser } from '../context/context'
 import { Button } from 'react-bootstrap'
 const About = () => {
-  const { cart } = useUser()
+  const { cart,setCart } = useUser()
+  const[price,setprice]=useState(0)
+ 
+function cartTotalPrice(){
+  let totalCost=0;
+  cart.length>0?(
+   cart.map(item => {
+     totalCost+=1*item.price;
+     console.log(totalCost)
+   })
+  ):(
+    console.log(0)
+  )
+   setprice(totalCost)
+}
+
+useEffect(()=>{
+cartTotalPrice(price)
+})
+
+
+
+  function removeCart(id){
+     let err=cart.filter((item)=>item.itemid!=id)
+     setCart(err)
+     console.log("deleted")
+  }
+
+
   
   return (
    <div className='container'>
     
-      <h3 className='mt-2'  style={{padding:'none',color:'white'}}>Total cart price :<span>sh {1000}</span></h3>
+      <h3 className='mt-2'  style={{padding:'none',color:'white'}}>Total cart price :<span>sh {price}</span></h3>
     
     <div className='container' style={{ background: 'white' }}>
       {cart.map((item) => (
@@ -36,7 +64,7 @@ const About = () => {
            </div>
          </div>
          <div className='col'>
-           <Button className='bg-danger'>Del</Button>
+           <Button className='bg-danger' onClick={()=>removeCart(item.itemid)}>Del</Button>
          </div>
         </div>
       ))}

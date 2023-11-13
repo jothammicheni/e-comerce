@@ -2,10 +2,14 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useUser } from '../context/context';
+import { motion } from 'framer-motion';
 
 const Home = () => {
   const [data, setData] = useState([]);
    const[filterItem,setFilteItem]=useState('')
+   const[size,setSize]=useState({width:200,height:200})
+   const[animate,setAnimate]=useState(false)
+
    const{addItemsCart}=useUser()
 //filter items//
    function filterItems(input) {
@@ -21,7 +25,7 @@ const Home = () => {
       axios.get('http://localhost/online_shop_database/sell_products.php')
         .then(response => {
           const result = response.data;
-         // console.log(result);
+          console.log(result);
            
             //setData(result);
           
@@ -78,12 +82,28 @@ const Home = () => {
       { data.length>=1?(
         data.map(item => (
         <div key={item.itemid}  className='col m-3' style={{maxWidth:'300px', width:'300px'}}>
-        <div
+        <motion.div
          className='row'
           style={{maxWidth:'200px', width:'200px',maxHeight:'200px',height:'200px'}}
+           animate={{
+            key:item.id,
+            width:animate? size.width: 200,
+            height:animate? size.height: 200
+           }}
+            onMouseOver={()=>{
+              setAnimate(true)
+              setSize({width:size.width+20 , height:size.height+20})
+              console.log(size.width)
+            }}
+            onMouseLeave={()=>{
+              setAnimate(true)
+              setSize({width:200 , height:200})
+              
+            }}
           >
           <img src={`data:image/png;base64,${item.item}`} alt={item.itemid} />
-          </div>
+          </motion.div>
+
          <h6>{item.itemName}</h6>
           
           <h6 variant='success'>Price:sh {item.price}</h6>    
