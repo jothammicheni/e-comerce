@@ -67,17 +67,17 @@ const Home = () => {
         <div className='col'>
           <input className='mt-3' type='text' 
            style={{height:'30px',width:'100%',outline:'none',borderRadius:'5px',textAlign:'center',border:'none'}}
-            placeholder='Search for an Item here'
+            placeholder='Search for an Item here..'
             value={filterItem} 
             onChange={(e)=>setFilteItem(e.target.value)}
            />
         </div>
         <div className='col' style={{maxWidth:'200px',width:'200px'}}>
-         <Button className='mt-2 ' style={{width:'100%'}}  onClick={()=>filterItems(filterItem)}>search</Button>
+         <Button className='mt-2 ' style={{width:'100%'}}   onClick={()=>filterItems(filterItem)}>search</Button>
         </div>
       </div>
 
-    <div className=' row mt-2' style={{ background: 'white' }}>   
+    <div className=' row mt-2' style={{ background: 'white'}}>   
      
       { data.length>=1?(
         data.map(item => (
@@ -87,18 +87,19 @@ const Home = () => {
           style={{maxWidth:'200px', width:'200px',maxHeight:'200px',height:'200px'}}
            animate={{
             key:item.id,
-            width:animate? size.width: 200,
+            width:animate?  size.width: 200,
             height:animate? size.height: 200
            }}
             onMouseOver={()=>{
               setAnimate(true)
-              setSize({width:size.width+20 , height:size.height+20})
+               setSize({width:size.width+20 ,  height:size.height+20})
               console.log(size.width)
             }}
             onMouseLeave={()=>{
               setAnimate(true)
               setSize({width:200 , height:200})
               
+
             }}
           >
           <img src={`data:image/png;base64,${item.item}`} alt={item.itemid} />
