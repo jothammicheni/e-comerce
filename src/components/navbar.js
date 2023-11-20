@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Logo from '../assets/logo.png'
 import '../styles/nav.css'
 import { Link } from 'react-router-dom';
@@ -7,11 +7,29 @@ import Nav  from 'react-bootstrap/Nav';
 import {useUser} from '../context/context'
 const Navbar = () => {
  const{sellerData}=useUser();
+ const{color,setColor}=useUser();
+
+ 
+
+  let black='#0f0f0f'
+  useEffect(() => {
+    document.body.style.backgroundColor = color ? '#0f0f0f' : ''; // Set the desired color
+  }, [color]);
+  
+ 
+
  
   return (
     <div className='container-fluid  bg-light' style={{top:'0px', position:'sticky'}}>
-         <div className='row  main-nav bg-light'>
-            <div className='col bg-light mr-5' style={{ maxWidth: '300px',maxHeight: '200px', width: '100%' }} >
+         <div className='row  main-nav bg-light'
+       
+
+         >
+            <div 
+            className='col bg-light mr-5'
+             style={{ maxWidth: '300px',maxHeight: '200px', width: '100%' }} 
+             onClick={() => setColor(!color)}
+            >
               <img src={Logo} className='img-fluid' alt='logo' style={{width: '100px' , height: '100px'}} />
             </div>
         <div className='col bg-light  d-flex flex-column justify-content-end' style={{background: 'white', display: 'none'}}>

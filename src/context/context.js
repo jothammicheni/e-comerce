@@ -7,7 +7,9 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [sellerData, setSellerData] = useState({ name: '', email: '' });
   const[items,setItems]=useState([])
-  const[cart,setCart]=useState([])
+  const[cart,setCart]=useState([]);
+  const[color,setColor]=useState(false)
+  const[dark,setDark]=useState('#0f0f0f')
 
   const addItemsCart = (product) => {
     axios.get('http://localhost/online_shop_database/sell_products.php')
@@ -33,8 +35,9 @@ export const UserProvider = ({ children }) => {
       });
   };
 
+ 
   return (
-    <UserContext.Provider value={{ sellerData, setSellerData,addItemsCart , cart,setCart}}>
+    <UserContext.Provider value={{ sellerData, setSellerData,addItemsCart , cart,setCart,color,setColor,dark,setDark}}>
       {children}
     </UserContext.Provider>
   );

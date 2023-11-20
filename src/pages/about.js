@@ -4,12 +4,13 @@ import { Button } from 'react-bootstrap'
 const About = () => {
   const { cart,setCart } = useUser()
   const[price,setprice]=useState(0)
+  const[amount,setAmount]=useState(1)
  
 function cartTotalPrice(){
   let totalCost=0;
   cart.length>0?(
    cart.map(item => {
-     totalCost+=1*item.price;
+     totalCost+=amount*item.price;
      console.log(totalCost)
    })
   ):(
@@ -22,13 +23,32 @@ useEffect(()=>{
 cartTotalPrice(price)
 })
 
-
-
-  function removeCart(id){
+function removeCart(id){
      let err=cart.filter((item)=>item.itemid!=id)
      setCart(err)
      console.log("deleted")
   }
+
+  function incrementItems(itemId) {
+    setCart(prevCart =>
+      prevCart.map(item =>
+        item.itemid === itemId ? { ...item, amount: item.amount + 1 } : item
+      )
+    );
+  }
+
+  function decrementItems(itemId) {
+    setCart(prevCart =>
+      prevCart.map(item =>
+        item.itemid === itemId && item.amount > 1
+          ? { ...item, amount: item.amount - 1 }
+          : item
+      )
+    );
+  }
+
+
+
 
 
   
@@ -58,9 +78,16 @@ cartTotalPrice(price)
          </div>
          <div className='col'>
            <div className='col'>
-             <Button className='bg-success'>+</Button>
-             <span>{0}</span>
-             <Button  className='bg-success'>-</Button>
+             <Button 
+              className='bg-success'
+              onClick={incrementItems}
+             >+</Button>
+             <span>{amount}</span>
+             <Button 
+              className='bg-success'
+              onClick={decrementItems}
+             
+             >-</Button>
            </div>
          </div>
          <div className='col'>
