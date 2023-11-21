@@ -1,0 +1,16 @@
+.inputs {
+    outline: none;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 15px;
+    color: black;
+    height: 40px;
+    border: 1px solid #dcdcdc; /* Lighter gray color */
+}
+
+label {
+    text-align: left;
+}
+#message{
+    border: 1px solid #dcdcdc; /* Lighter gray color */ 
+}

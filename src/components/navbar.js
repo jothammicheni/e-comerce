@@ -32,7 +32,7 @@ const Navbar = () => {
             >
               <img src={Logo} className='img-fluid' alt='logo' style={{width: '100px' , height: '100px'}} />
             </div>
-        <div className='col bg-light  d-flex flex-column justify-content-end' style={{background: 'white', display: 'none'}}>
+        <div className='col bg-light  d-flex flex-column justify-content-end' style={{background: 'white', display:'none'}}>
             <ul className='nav bg-light mt-5'  variant='secondary'>
                <li className='nav-item'>
                  <Nav.Link  as={Link} className='nav-link active  ' variant=" dark " style={{fontSize: '1.2',color: 'black'}} to='/'>Home</Nav.Link>
