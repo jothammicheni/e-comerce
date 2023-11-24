@@ -67,7 +67,7 @@ const Contact = () => {
               </div>
 
               <div  className='row mt-4  '>
-              <div className='col' style={{textAlign:'left'}}>
+              <div className='col' style={{textAlign:'left'}} >
                    <label htmlFor='message' >Message<span style={{color:'red',fontSize:'20px'}}>*</span></label>
                    <textarea className='input' id='message' rows={40}  cols={30}>
                        
