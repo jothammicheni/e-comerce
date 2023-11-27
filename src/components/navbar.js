@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Logo from '../assets/logo.png'
 import '../styles/nav.css'
 import { Link } from 'react-router-dom';
@@ -6,15 +6,34 @@ import { Link } from 'react-router-dom';
 import Nav  from 'react-bootstrap/Nav';
 import {useUser} from '../context/context'
 const Navbar = () => {
+
+  const[boolen,setBoolen]=useState(false)
  const{sellerData}=useUser();
  const{color,setColor}=useUser();
 
  
 
-  let black='#0f0f0f'
-  useEffect(() => {
-    document.body.style.backgroundColor = color ? '#0f0f0f' : ''; // Set the desired color
-  }, [color]);
+ useEffect(() => {
+   
+  const handleResize = () => {
+    if (window.innerWidth <800) {
+        setBoolen(true)
+    } else {
+       setBoolen(false)
+    }
+  };
+ console.log(window.innerWidth)
+  // Initial check on mount
+  handleResize();
+
+  // Add event listener for window resize
+  window.addEventListener('resize', handleResize);
+
+  // Cleanup the event listener on component unmount
+  return () => {
+    window.removeEventListener('resize', handleResize);
+  };
+}, []);
   
  
 
@@ -32,9 +51,9 @@ const Navbar = () => {
             >
               <img src={Logo} className='img-fluid' alt='logo' style={{width: '100px' , height: '100px'}} />
             </div>
-        <div className='col bg-light  d-flex flex-column justify-content-end' style={{background: 'white', display:'none'}}>
-            <ul className='nav bg-light mt-5'  variant='secondary'>
-               <li className='nav-item'>
+        <div className='col bg-light  d-flex flex-column justify-content-end  ' style={{background: 'white'}}>
+            <ul className='nav bg-light mt-5   navigator'  variant='secondary'  id={window.innerWidth<900?'hide':'show'}>
+               <li className='nav-item  '>
                  <Nav.Link  as={Link} className='nav-link active  ' variant=" dark " style={{fontSize: '1.2',color: 'black'}} to='/'>Home</Nav.Link>
                </li>
                <li className='nav-item'>

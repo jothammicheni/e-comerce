@@ -5,3 +5,9 @@ a{
 #toggle-btn{
     display: none;
 }
+#hide{
+    display: none;
+}
+#show{
+    display:visible;
+}
