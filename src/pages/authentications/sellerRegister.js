@@ -4,6 +4,14 @@ import { Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { ref, set } from 'firebase/database';
+import { firebaseConfig } from '../../firebase';
+import { database } from '../../firebase'; // Update the path based on your actual file structure
+
+import { updateProfile } from 'firebase/auth';
+
 
 const SellerRegister = () => {
 const[name,setName]=useState('')
@@ -13,7 +21,12 @@ const[password,setPassword]=useState('')
 const[error,setError]=useState('')
 const navigate=useNavigate();
 
-const registerSeller = (e) => {
+const registerSeller = async(e) => {
+
+   
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+
     e.preventDefault();
     if (name.trim() === '' || email.trim() === '' || phone.trim() === '' || password.trim() === '') {
       setError('All fields are required');
@@ -38,15 +51,28 @@ const registerSeller = (e) => {
           fd.append('phone', phone);
           fd.append('password', password);
   
-          axios.post('http://localhost/online_shop_database/seller_register.php', fd)
-           .then(response=> {
-              if(response.data==='Exist')
-                setError('Email already registered')
-               else{
-                navigate('/sellerLogin')
-               }
-                console.log(response.data)
-            })
+          const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+          console.log(userCredentials)
+
+            // Get the user's UID
+      const userId = userCredentials.user.uid;
+
+      // Update the user's profile with additional information
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+      });
+
+      // Store additional user details in the database
+      const userRef = ref(database, `users/${userId}`);
+      await set(userRef, {
+        name: name,
+        email: email,
+        phone: phone,
+      });
+
+
+     alert('Seller registered successfully!');
+
           
         }catch(error){
             console.error('Error registering seller:', error);

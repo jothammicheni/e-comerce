@@ -1,42 +1,55 @@
-import axios from 'axios'
 import React, { useState } from 'react'
 import { Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import {useUser} from '../../context/context'
+import { database} from '../../firebase'
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getDatabase, ref as databaseRef, push, set } from 'firebase/database';
+
 const SellProducts = () => {
-  const[itemName,setItemName]=useState('')
-  const[price,setPrice]=useState('')
-  const[desc,setDesc]=useState('')
-  const[category,setCategory]=useState('')
-  const[itemImage,setItemImage]=useState('')
-  const[error,setError]=useState('')
-   const{sellerData}=useUser()
+  const [itemName, setItemName] = useState('');
+  const [price, setPrice] = useState('');
+  const [desc, setDesc] = useState('');
+  const [category, setCategory] = useState('');
+  const [itemImage, setItemImage] = useState('');
+  const [error, setError] = useState('');
+  const { sellerData } = useUser();
 
-    //alert(sellerData.name)
-    const sellProducts=(e)=>{
-      e.preventDefault();
-      if(!itemName.trim()|| !price.trim() || !desc.trim()|| !itemImage){
-        setError("Fill all the fields")
-        return;
-      }
-      try{
+  const sellProducts = async (e) => {
+    e.preventDefault();
 
-        const fd = new FormData();
-        fd.append('itemName',itemName);
-        fd.append('price', price);
-        fd.append('desc',desc);
-        fd.append('category', category);
-        fd.append('itemImage',itemImage);
-        fd.append('email',sellerData.email );
-        axios.post('http://localhost/online_shop_database/sell_products.php',fd)
-        .then(response=>{
-          //console.log(response.data)
-        })
-      }catch(error){
-        setError(error)
-      }
-      setError('')
+    if (!itemName.trim() || !price.trim() || !desc.trim() || !category.trim() || !itemImage) {
+      setError('Fill all the fields');
+      return;
     }
+
+    setError('');
+
+    try {
+      const storage = getStorage();
+      const database = getDatabase();
+
+      const productsRef = databaseRef(database, 'products');
+      const newProductKey = push(productsRef).key;
+
+      const storeRef = storageRef(storage, `itemImages/${newProductKey}`);
+      await uploadBytes(storeRef, itemImage);
+
+
+      const newProduct = {
+        itemName: itemName,
+        price: price,
+        desc: desc,
+        category: category,
+        sellerName: sellerData.name,
+      };
+
+      await set(databaseRef(database, `products/${newProductKey}`), newProduct);
+      alert('uploaded')
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   return (
     <div className='container mt-5'>

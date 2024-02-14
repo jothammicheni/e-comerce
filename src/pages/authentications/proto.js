@@ -4,8 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useUser } from '../context/context';
 import { motion } from 'framer-motion';
-import { ref, get, onValue} from 'firebase/database';
-import { getDownloadURL } from 'firebase/storage';
+import { ref, get, onValue, getDownloadURL } from 'firebase/database';
 import { database, storage } from '../firebase';
 
 const Home = (e) => {
@@ -25,49 +24,52 @@ const Home = (e) => {
   // Fetch data from Firebase Realtime Database
 // Fetch image URLs from Firebase Storage based on product IDs
 useEffect(() => {
-  const productsRef = ref(database, 'products');
+    const fetchData = async () => {
+      const promises = data.map(async (item) => {
+        try {
+          const imageURLRef = ref(storage, `itemImages/${item.id}`);
+          const imageURL = await getDownloadURL(imageURLRef);
+          console.log('Fetched image URL:', imageURL);
+          return { ...item, imageURL };
+        } catch (error) {
+          console.error('Error fetching image URL:', error);
+          return { ...item, imageURL: '' }; // Provide a default URL or handle error
+        }
+      });
+  
+      const updatedData = await Promise.all(promises);
+      setData(updatedData);
 
-  const fetchData = onValue(productsRef, (snapshot) => {
-    const data = snapshot.val();
-    if (data) {
-      console.log('Fetched data:', data);
-      setData(Object.values(data));
-    } else {
-      console.log('No data available');
-      setData([]);
-    }
-  });
-
-  return () => {
-    fetchData();
-  };
-}, []);
-
-// Handle filtering when filterItem changes
-useEffect(() => {
-  if (filterItem) {
-    const filteredItems = filterItems(filterItem);
-    setData(filteredItems);
-  } else {
-    const productsRef = ref(database, 'products');
-
-    const fetchData = onValue(productsRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        console.log('Fetched data:', data);
-        setData(Object.values(data));
-      } else {
-        console.log('No data available');
-        setData([]);
-      }
-    });
-
-    return () => {
-      fetchData();
+      alert(data) .
     };
-  }
-}, [filterItem]);
+  
+    fetchData();
+  }, [data]);
+  
+  // Handle filtering when filterItem changes
+  useEffect(() => {
+    if (filterItem) {
+      const filteredItems = filterItems(filterItem);
+      setData(filteredItems);
+    } else {
+      const productsRef = ref(database, 'products');
 
+      const fetchData = onValue(productsRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          console.log('Fetched data:', data);
+          setData(Object.values(data));
+        } else {
+          console.log('No data available');
+          setData([]);
+        }
+      });
+
+      return () => {
+        fetchData();
+      };
+    }
+  }, [filterItem]);
 
   
   return (
@@ -78,7 +80,7 @@ useEffect(() => {
            style={{height:'30px',width:'100%',outline:'none',borderRadius:'5px',textAlign:'center',border:'none'}}
             placeholder='Search for an Item here..'
             value={filterItem} 
-            onChange={(e)=>setFilterItem(e.target.value)}
+            onChange={(e)=>setFilteItem(e.target.value)}
            />
         </div>
         <div className='col' style={{maxWidth:'200px',width:'200px'}}>
@@ -88,50 +90,46 @@ useEffect(() => {
 
     <div className=' row mt-2' style={{ background: 'white'}}>   
      
-    {data.length >= 1 ? (
-  data.map(async (item) => {
-    const imageRef = ref(storage, `images/${item.itemid}.jpg`);
-    try {
-      const imageUrl = await getDownloadURL(imageRef);
-      return (
-        <div key={item.itemid} className='col m-3' style={{ maxWidth: '300px', width: '300px' }}>
-          <motion.div
-            className='row'
-            style={{ maxWidth: '200px', width: '200px', maxHeight: '200px', height: '200px' }}
-            animate={{
-              key: item.id,
-              width: animate ? size.width : 200,
-              height: animate ? size.height : 200,
+      { data.length>=1?(
+        data.map(item => (
+        <div key={item.itemid}  className='col m-3' style={{maxWidth:'300px', width:'300px'}}>
+        <motion.div
+         className='row'
+          style={{maxWidth:'200px', width:'200px',maxHeight:'200px',height:'200px'}}
+           animate={{
+            key:item.id,
+            width:animate?  size.width: 200,
+            height:animate? size.height: 200
+           }}
+            onMouseOver={()=>{
+              setAnimate(true)
+               setSize({width:size.width+20 ,  height:size.height+20})
+              console.log(size.width)
             }}
-            onMouseOver={() => {
-              setAnimate(true);
-              setSize({ width: size.width + 20, height: size.height + 20 });
-            }}
-            onMouseLeave={() => {
-              setAnimate(true);
-              setSize({ width: 200, height: 200 });
+            onMouseLeave={()=>{
+              setAnimate(true)
+              setSize({width:200 , height:200})
+              
+
             }}
           >
-            <img src={imageUrl} alt={item.itemid} />
+          <img src={`data:image/png;base64,${item.item}`} alt={item.itemid} />
           </motion.div>
-          <h6>{item.itemName}</h6>
-          <h6 variant='success'>Price: sh {item.price}</h6>
-          <div className='row mt-2' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Button className='primary' style={{ width: '200px' }} onClick={() => addItemsCart(item)}>
-              Add to Cart
-            </Button>
+
+         <h6>{item.itemName}</h6>
+          
+          <h6 variant='success'>Price:sh {item.price}</h6>    
+          <div className='row mt-2' style={{display:'flex',alignItems:'center', justifyContent:'center'}}>
+          <Button className='primary' style={{width:'200px'}} onClick={()=>addItemsCart(item)}>add cart </Button>
+
           </div>
         </div>
-      );
-    } catch (error) {
-      console.error('Error fetching image URL:', error);
-      return null;
-    }
-  })
-) : (
-  <h1>Items not available at the moment</h1>
-)}
-
+      ))
+      ):(
+        <h1>Items not available at the moment</h1>
+      )
+      }
+        
        
       </div>
 
