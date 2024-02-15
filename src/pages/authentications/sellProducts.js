@@ -19,7 +19,7 @@ const SellProducts = () => {
     e.preventDefault();
 
     if (!itemName.trim() || !price.trim() || !desc.trim() || !category.trim() || !itemImage) {
-      setError('Fill all the fields');
+      setError('Fill all the fieldss') ;
       return;
     }
 
